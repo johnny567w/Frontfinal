@@ -13,7 +13,7 @@ import { AuthService } from '../../../../../core/services/auth.service';
 })
 export class MiPerfilComponent implements OnInit {
   user: Persona = {
-    id: 0,
+    id: 0, // 🔥 Asegurar que esto es `number`, no `Number`
     nombre: '',
     apellido: '',
     cedula: '',
@@ -26,7 +26,8 @@ export class MiPerfilComponent implements OnInit {
     genero: '',
     rol: { id: 0, nombre: '' }
   };
-  userId: number = 0; 
+  
+  userId: number = 0; // 🔥 Cambiar de `Number` a `number`
   localPhoto: string = '';
   editMode: boolean = false;
 
@@ -41,7 +42,7 @@ export class MiPerfilComponent implements OnInit {
 
   obtenerUsuarioAutenticado(): void {
     const usuario = this.authService.getUsuario();
-    if (usuario && usuario.id) {
+    if (usuario && typeof usuario.id === 'number') { // 🔥 Verificar tipo correcto
       this.userId = usuario.id;
       this.cargarPerfil();
       this.cargarFotoLocal();
@@ -66,11 +67,32 @@ export class MiPerfilComponent implements OnInit {
   }
 
   guardarPerfil(): void {
-    this.miPerfilService.actualizarPerfil(this.user).subscribe(() => {
-      this.editMode = false;
-      this.cargarPerfil();
+    if (!this.user.id) {
+      console.error("No se puede actualizar: ID de usuario no válido.");
+      return;
+    }
+  
+    this.miPerfilService.getPerfilUsuario(Number(this.user.id)).subscribe(usuarioExistente => {
+      const perfilActualizado: Persona = {
+        ...usuarioExistente, // 🔥 Mantener datos existentes (incluido rol)
+        nombre: this.user.nombre,
+        apellido: this.user.apellido,
+        cedula: this.user.cedula,
+        correo: this.user.correo,
+        direccion: this.user.direccion,
+        estado: this.user.estado,
+        genero: this.user.genero,
+        telefono: this.user.telefono,
+        fechaNacimiento: this.user.fechaNacimiento
+      };
+  
+      this.miPerfilService.actualizarPerfil(perfilActualizado).subscribe(() => {
+        this.editMode = false;
+        this.cargarPerfil();
+      });
     });
   }
+  
 
   onFileSelected(event: any): void {
     const file = event.target.files[0];
