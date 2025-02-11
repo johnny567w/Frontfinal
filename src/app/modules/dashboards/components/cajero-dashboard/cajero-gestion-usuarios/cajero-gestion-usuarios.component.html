@@ -1,0 +1,133 @@
+<div class="bg-gray-100 min-h-screen p-4">
+  <!-- Título -->
+  <div class="text-center mb-8">
+    <h1 class="text-3xl font-bold text-gray-800">Usuarios Registrados</h1>
+    <p class="text-gray-600">Gestiona la información de los usuarios registrados en el sistema</p>
+  </div>
+
+  <!-- Contenedor de la tabla -->
+  <div class="overflow-x-auto">
+    <table class="table-auto w-full bg-white shadow-md rounded-lg overflow-hidden">
+      <thead>
+        <tr class="bg-blue-500 text-white">
+          <th class="px-6 py-3 text-left">Nombre</th>
+          <th class="px-6 py-3 text-left">Correo</th>
+          <th class="px-6 py-3 text-left">Cédula</th>
+          <th class="px-6 py-3 text-left">Fecha de Nacimiento</th>
+          <th class="px-6 py-3 text-left">Rol</th>
+          <th class="px-6 py-3 text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users$ | async" class="border-b hover:bg-gray-100 transition duration-300">
+          <td class="px-6 py-4 text-gray-700">{{ user.nombre }}</td>
+          <td class="px-6 py-4 text-gray-700">{{ user.correo }}</td>
+          <td class="px-6 py-4 text-gray-700">{{ user.cedula || 'No asignada' }}</td>
+          <td class="px-6 py-4 text-gray-700">
+            {{ user.fechaNacimiento ? (user.fechaNacimiento | date:'yyyy-MM-dd') : 'No asignado' }}
+          </td>
+          <td class="px-6 py-4 text-gray-700">{{ user.rol.nombre }}</td>
+          <td class="px-6 py-4 text-center">
+            <button
+              (click)="selectUser(user)"
+              class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+            >
+              Editar
+            </button>
+            <button
+              (click)="updateUser()"
+              *ngIf="selectedUserId === user.id"
+              class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded ml-2"
+            >
+              Actualizar
+            </button>
+            <button
+            (click)="deleteUser(+user.id)" 
+            class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded ml-2"
+          >
+            Eliminar
+          </button>
+          
+          
+          
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Formulario para editar usuario, solo se muestra si hay un usuario seleccionado -->
+  <div class="mt-10" *ngIf="selectedUserId !== null">
+      <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-lg mx-auto">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">Editar Usuario</h3>
+    
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="correo">Correo Electrónico</label>
+          <input
+            [(ngModel)]="selectedUser.correo"
+            id="correo"
+            type="email"
+            readonly
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 bg-gray-100 cursor-not-allowed"
+          />
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre">Nombre</label>
+          <input
+            [(ngModel)]="selectedUser.nombre"
+            id="nombre"
+            type="text"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="cedula">Cédula</label>
+          <input
+            [(ngModel)]="selectedUser.cedula"
+            id="cedula"
+            type="text"
+            readonly
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 bg-gray-100 cursor-not-allowed"
+          />
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="fechaNacimiento">Fecha de Nacimiento</label>
+          <input
+            [(ngModel)]="selectedUser.fechaNacimiento"
+            id="fechaNacimiento"
+            type="date"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="rol">Rol</label>
+          <input
+            [(ngModel)]="selectedUser.rol.nombre"
+            id="rol"
+            type="text"
+            readonly
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 bg-gray-100 cursor-not-allowed"
+          />
+        </div>
+
+        <div class="flex items-center justify-between">
+          <button
+            (click)="updateUser()"
+            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
+            Guardar Cambios
+          </button>
+          <button
+            (click)="cancelEdit()"
+            class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+  </div>
+</div>
