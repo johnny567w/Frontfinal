@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EspacioDetailComponent } from './espacio-detail.component';
+import { MiPerfilComponent } from './mi-perfil.component';
 
-describe('EspacioDetailComponent', () => {
-  let component: EspacioDetailComponent;
-  let fixture: ComponentFixture<EspacioDetailComponent>;
+describe('MiPerfilComponent', () => {
+  let component: MiPerfilComponent;
+  let fixture: ComponentFixture<MiPerfilComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EspacioDetailComponent]
+      imports: [MiPerfilComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EspacioDetailComponent);
+    fixture = TestBed.createComponent(MiPerfilComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

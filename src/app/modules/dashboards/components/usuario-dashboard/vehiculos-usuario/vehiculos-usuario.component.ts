@@ -1,47 +1,69 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VehiculosService } from '../../../../vehiculos/services/vehiculos.service';
+import { FormsModule } from '@angular/forms';
 import { Vehiculo } from '../../../../../models/vehiculo.model';
-import { VehiculoListComponent } from '../../../../vehiculos/components/vehiculo-list/vehiculo-list.component';
-import { VehiculoFormComponent } from '../../../../vehiculos/components/vehiculo-form/vehiculo-form.component';
+import { Persona } from '../../../../../models/persona.model';
+import { VehiculosService } from '../../../../vehiculos/services/vehiculos.service';
+import { AuthService } from '../../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-vehiculos-usuario',
-  templateUrl: './vehiculos-usuario.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    VehiculoListComponent, 
-    VehiculoFormComponent  
-  ]
+  imports: [CommonModule, FormsModule], // Importamos los módulos necesarios
+  templateUrl: './vehiculos-usuario.component.html',
 })
 export class VehiculosUsuarioComponent implements OnInit {
   vehiculos: Vehiculo[] = [];
-  mostrarFormulario = false;
+  usuarioAutenticado!: Persona;
+  nuevaPlaca: string = '';
 
-  constructor(private vehiculosService: VehiculosService) {}
+  constructor(private vehiculoService: VehiculosService, private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.cargarVehiculos();
+    const usuario = this.authService.getUsuario();
+    if (usuario) {
+      this.usuarioAutenticado = usuario;
+      this.cargarVehiculos();
+    }
   }
 
+  // Cargar todos los vehículos
   cargarVehiculos(): void {
-    this.vehiculosService.getVehiculosUsuario().subscribe(
+    this.vehiculoService.getVehiculos().subscribe(
       (data) => {
         this.vehiculos = data;
       },
       (error) => {
-        console.error('Error al cargar los vehículos');
+        console.error('Error al cargar vehículos:', error);
       }
     );
   }
 
-  toggleFormulario(): void {
-    this.mostrarFormulario = !this.mostrarFormulario;
+  // Agregar un nuevo vehículo
+  agregarVehiculo(): void {
+    if (!this.nuevaPlaca.trim()) return;
+
+    const nuevoVehiculo: Vehiculo = {
+      id: null,  
+      placa: this.nuevaPlaca,
+      usuario: this.usuarioAutenticado
+    };
+
+    this.vehiculoService.addVehiculo(nuevoVehiculo).subscribe(
+      (vehiculoCreado) => {
+        this.vehiculos.push(vehiculoCreado); // Agregar el vehículo a la lista
+        this.nuevaPlaca = ''; // Limpiar el input
+      },
+      (error) => {
+        console.error('Error al agregar vehículo:', error);
+      }
+    );
   }
 
-  onVehiculoAgregado(): void {
-    this.toggleFormulario();
-    this.cargarVehiculos();
+  // Eliminar vehículo
+  eliminarVehiculo(id: number): void {
+    this.vehiculoService.deleteVehiculo(id).subscribe(() => {
+      this.vehiculos = this.vehiculos.filter((vehiculo) => vehiculo.id !== id);
+    });
   }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Persona } from '../../../../../models/persona.model';
-import { MiPerfilService } from '../../../perfil/mi-perfil.service';
+import { MiPerfilService } from '../../../../perfil/mi-perfil.service';
 import { AuthService } from '../../../../../core/services/auth.service';
 
 @Component({

@@ -4,8 +4,7 @@
 <br>
 <br>
 <br>
-
-<div class="flex items-center justify-center p-12 bg-gray-100 dark:bg-gray-900 min-h-screen">
+<br>
     <div class="mx-auto w-full max-w-[550px] bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-300 dark:border-gray-700 p-6 space-y-6">
         <h1 class="text-2xl font-bold text-[#07074D] dark:text-gray-200 text-center">Crea una cuenta</h1>
 
@@ -26,7 +25,7 @@
                     <div class="mb-5">
                         <label for="nombre" class="mb-3 block text-base font-medium text-[#07074D] dark:text-gray-300">Nombre</label>
                         <input type="text" id="nombre" placeholder="Tu nombre" 
-                            class="w-full rounded-md border border-[#e0e0e0] bg-white dark:bg-gray-700 py-3 px-6 text-base font-medium text-[#6B7280] dark:text-white outline-none focus:border-[#6A64F1] focus:shadow-md" 
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white white-700 py-3 px-6 text-base font-medium text-[#6B7280] dark:text-white outline-none focus:border-[#6A64F1] focus:shadow-md" 
                             formControlName="nombre" />
                         <p class="text-red-500 text-sm mt-1" *ngIf="esRequerido('nombre')">Este campo es obligatorio.</p>
                     </div>
@@ -35,8 +34,8 @@
                     <div class="mb-5">
                         <label for="apellido" class="mb-3 block text-base font-medium text-[#07074D] dark:text-gray-300">Apellido</label>
                         <input type="text" id="apellido" placeholder="Tu apellido" 
-                            class="w-full rounded-md border border-[#e0e0e0] bg-white dark:bg-gray-700 py-3 px-6 text-base font-medium text-[#6B7280] dark:text-white outline-none focus:border-[#6A64F1] focus:shadow-md" 
-                            formControlName="apellido" />
+                        class="w-full rounded-md border border-[#e0e0e0] bg-white white-700 py-3 px-6 text-base font-medium text-[#6B7280] dark:text-white outline-none focus:border-[#6A64F1] focus:shadow-md" 
+                        formControlName="apellido" />
                         <p class="text-red-500 text-sm mt-1" *ngIf="esRequerido('apellido')">Este campo es obligatorio.</p>
                     </div>
                 </div>
@@ -48,8 +47,8 @@
                     <div class="mb-5">
                         <label for="cedula" class="mb-3 block text-base font-medium text-[#07074D] dark:text-gray-300">Cédula</label>
                         <input type="text" id="cedula" placeholder="Tu cédula" 
-                            class="w-full rounded-md border border-[#e0e0e0] bg-white dark:bg-gray-700 py-3 px-6 text-base font-medium text-[#6B7280] dark:text-white outline-none focus:border-[#6A64F1] focus:shadow-md" 
-                            formControlName="cedula" />
+                        class="w-full rounded-md border border-[#e0e0e0] bg-white white-700 py-3 px-6 text-base font-medium text-[#6B7280] dark:text-white outline-none focus:border-[#6A64F1] focus:shadow-md" 
+                        formControlName="cedula" />
                         <p class="text-red-500 text-sm mt-1" *ngIf="esCedulaValida()">Debe contener exactamente 10 dígitos numéricos.</p>
                     </div>
                 </div>
@@ -67,8 +66,8 @@
 <div class="mb-5">
     <label for="telefono" class="mb-3 block text-base font-medium text-[#07074D] dark:text-gray-300">Teléfono</label>
     <input type="tel" id="telefono" placeholder="Tu teléfono" 
-        class="w-full rounded-md border border-[#e0e0e0] bg-white dark:bg-gray-700 py-3 px-6 text-base font-medium text-[#6B7280] dark:text-white outline-none focus:border-[#6A64F1] focus:shadow-md" 
-        formControlName="telefono" />
+    class="w-full rounded-md border border-[#e0e0e0] bg-white white-700 py-3 px-6 text-base font-medium text-[#6B7280] dark:text-white outline-none focus:border-[#6A64F1] focus:shadow-md" 
+    formControlName="telefono" />
     <p class="text-red-500 text-sm mt-1" *ngIf="esRequerido('telefono')">Este campo es obligatorio.</p>
 </div>
 
@@ -76,8 +75,8 @@
 <div class="mb-5">
     <label for="direccion" class="mb-3 block text-base font-medium text-[#07074D] dark:text-gray-300">Dirección</label>
     <input type="text" id="direccion" placeholder="Tu dirección" 
-        class="w-full rounded-md border border-[#e0e0e0] bg-white dark:bg-gray-700 py-3 px-6 text-base font-medium text-[#6B7280] dark:text-white outline-none focus:border-[#6A64F1] focus:shadow-md" 
-        formControlName="direccion" />
+    class="w-full rounded-md border border-[#e0e0e0] bg-white white-700 py-3 px-6 text-base font-medium text-[#6B7280] dark:text-white outline-none focus:border-[#6A64F1] focus:shadow-md" 
+    formControlName="direccion" />
     <p class="text-red-500 text-sm mt-1" *ngIf="esDireccionValida()">Solo se permiten caracteres alfabéticos.</p>
 </div>
 
@@ -85,8 +84,8 @@
 <div class="mb-5">
     <label for="genero" class="mb-3 block text-base font-medium text-[#07074D] dark:text-gray-300">Género</label>
     <select id="genero" 
-        class="w-full rounded-md border border-[#e0e0e0] bg-white dark:bg-gray-700 py-3 px-6 text-base font-medium text-[#6B7280] dark:text-white outline-none focus:border-[#6A64F1] focus:shadow-md" 
-        formControlName="genero">
+    class="w-full rounded-md border border-[#e0e0e0] bg-white white-700 py-3 px-6 text-base font-medium text-[#6B7280] dark:text-white outline-none focus:border-[#6A64F1] focus:shadow-md" 
+    formControlName="genero">
         <option value="masculino">Masculino</option>
         <option value="femenino">Femenino</option>
         <option value="otro">Otro</option>
@@ -121,10 +120,9 @@
             </div>
 
             <p class="text-sm text-gray-600 dark:text-gray-400 text-center">¿Ya tienes una cuenta?
-                <a routerLink="/auth/sign-in" class="text-indigo-600 dark:text-indigo-400 font-medium hover:underline">Inicia sesión aquí</a>
+                <a routerLink="login" class="text-indigo-600 dark:text-indigo-400 font-medium hover:underline">Inicia sesión aquí</a>
             </p>
         </form>
     </div>
-</div>
-
+    <br>
 <app-footer></app-footer>

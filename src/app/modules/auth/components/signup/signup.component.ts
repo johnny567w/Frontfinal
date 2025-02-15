@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UsuariosService } from '../../../dashboards/components/usuario-dashboard/services/usuarios.service';
 import { PersonasService } from '../../../personas/services/personas.service';
 import { NavbarComponent } from '../../../../shared/components/navbar/navbar.component';
@@ -10,7 +10,7 @@ import { FooterComponent } from '../../../../shared/components/footer/footer.com
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [FooterComponent, ReactiveFormsModule, CommonModule, NavbarComponent],
+  imports: [FooterComponent, ReactiveFormsModule, CommonModule, NavbarComponent,RouterLink],
   templateUrl: './signup.component.html',
   styles: ``,
 })

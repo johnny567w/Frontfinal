@@ -2,34 +2,32 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Vehiculo } from '../../../models/vehiculo.model';
-import { AuthService } from '../../../core/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VehiculosService {
-  private baseUrl = 'http://localhost:8080/api/vehiculos';
+  private apiUrl = 'http://localhost:8080/api/vehiculos'; 
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient) {}
 
-  getVehiculosUsuario(): Observable<Vehiculo[]> {
-    const usuario = this.authService.getUsuario();
-    if (!usuario) {
-      throw new Error('Usuario no autenticado');
-    }
-    return this.http.get<Vehiculo[]>(`${this.baseUrl}/usuario/${usuario.id}`);
+  // Obtener todos los vehículos
+  getVehiculos(): Observable<Vehiculo[]> {
+    return this.http.get<Vehiculo[]>(this.apiUrl);
   }
 
-  addVehiculo(placa: string): Observable<Vehiculo> {
-    const usuario = this.authService.getUsuario();
-    if (!usuario) {
-      throw new Error('Usuario no autenticado');
-    }
-    const vehiculo: Vehiculo = { id: 0, placa, usuario };
-    return this.http.post<Vehiculo>(this.baseUrl, vehiculo);
+  // Obtener un vehículo por ID
+  getVehiculoById(id: number): Observable<Vehiculo> {
+    return this.http.get<Vehiculo>(`${this.apiUrl}/${id}`);
   }
 
+  // Agregar un nuevo vehículo
+  addVehiculo(vehiculo: Vehiculo): Observable<Vehiculo> {
+    return this.http.post<Vehiculo>(this.apiUrl, vehiculo);
+  }
+
+  // Eliminar un vehículo por ID
   deleteVehiculo(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
