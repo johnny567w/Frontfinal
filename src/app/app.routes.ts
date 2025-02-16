@@ -8,6 +8,7 @@ import { MiPerfilComponent } from './modules/dashboards/components/usuario-dashb
 import { CajeroInicioComponent } from './modules/dashboards/components/cajero-dashboard/cajero-inicio/cajero-inicio.component';
 import { CajeroGestionUsuariosComponent } from './modules/dashboards/components/cajero-dashboard/cajero-gestion-usuarios/cajero-gestion-usuarios.component';
 import { CajeroGestionEspaciosComponent } from './modules/dashboards/components/cajero-dashboard/cajero-gestion-espacios/cajero-gestion-espacios.component';
+import { CajeroTarifaComponent } from './modules/dashboards/components/cajero-dashboard/cajero-tarifa/cajero-tarifa.component';
 
 export const routes: Routes = [
   { path: 'inicio', loadComponent: () => import('./shared/components/inicio/inicio.component').then(m => m.InicioComponent) },
@@ -38,7 +39,7 @@ export const routes: Routes = [
     { path: 'gestion-espacios', component: CajeroGestionEspaciosComponent },
       { path: 'gestion-usuarios', component: CajeroGestionUsuariosComponent },
      //// { path: 'gestion-contratos', component: CajeroGestionContratosComponent },
-     // { path: 'gestion-tarifa-horario', component: CajeroTarifaHorarioComponent }, 
+      { path: 'gestion-tarifa', component: CajeroTarifaComponent}, 
     ],
   },
 

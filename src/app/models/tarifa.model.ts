@@ -1,4 +1,4 @@
 export interface Tarifa {
-    id : Number,
-    valor : Number
+    id : number,
+    valor : number
 }
