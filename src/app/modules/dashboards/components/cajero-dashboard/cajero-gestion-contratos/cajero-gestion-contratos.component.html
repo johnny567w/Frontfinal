@@ -1,0 +1,120 @@
+<div class="bg-gray-100 min-h-screen p-6">
+  <h1 class="text-2xl font-bold mb-6 text-center">Gestión de Contratos</h1>
+
+  <!-- 🔹 Selección de Persona -->
+  <div class="mb-6 max-w-md mx-auto">
+    <label class="block text-sm font-medium text-gray-700 mb-2">Seleccionar Persona</label>
+    <select [(ngModel)]="personaSeleccionada" (change)="filtrarContratos()" class="border p-2 w-full rounded">
+      <option value="" selected>Todas las personas</option>
+      <option *ngFor="let persona of personas" [value]="persona.id">
+        {{ persona.nombre }} {{ persona.apellido }} ({{ persona.correo }})
+      </option>
+    </select>
+  </div>
+
+  <!-- 🔹 Lista de Contratos -->
+  <div *ngIf="contratosFiltrados.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    <div *ngFor="let contrato of contratosFiltrados" class="bg-white shadow-md rounded-lg p-4">
+      <h2 class="text-lg font-bold text-gray-800">Espacio: {{ contrato.espacio.id }}</h2>
+      <p class="text-gray-600">Usuario: {{ contrato.usuario.persona.nombre }} {{ contrato.usuario.persona.apellido }}</p>
+      <p class="text-gray-600">Correo: {{ contrato.usuario.persona.correo }}</p>
+      <p class="text-gray-600">Costo Total: ${{ contrato.montoTotal }}</p>
+      <p class="text-gray-500">Fecha Inicio: {{ contrato.fechaInicio | date: 'dd/MM/yyyy' }}</p>
+      <p class="text-gray-500">Duración: {{ calcularDuracionMeses(contrato.fechaInicio, contrato.fechaFin) }} meses</p>
+      <p class="text-gray-500">Fecha Fin: {{ contrato.fechaFin | date: 'dd/MM/yyyy' }}</p>
+
+      <div class="flex space-x-2 mt-4">
+        <button (click)="selectContrato(contrato)" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+          Editar
+        </button>
+        <button (click)="eliminarContrato(contrato)" class="bg-red-500 text-white">
+          Eliminar
+      </button>
+        
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="contratosFiltrados.length === 0" class="text-center text-gray-600 mt-8">
+    No se encontraron contratos.
+  </div>
+</div>
+
+  <!-- 🔹 Formulario de edición de contratos -->
+  <div *ngIf="selectedContrato" class="mt-10">
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-lg mx-auto">
+      <h3 class="text-xl font-semibold text-gray-700 mb-4">Editar Contrato</h3>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="personaId">
+          Usuario
+        </label>
+        <input
+        [value]="selectedContrato.usuario.persona.nombre + ' ' + selectedContrato.usuario.persona.apellido"
+        id="personaId"
+          type="text"
+          readonly
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="espacioId">
+          Espacio
+        </label>
+        <input
+          [value]="selectedContrato.espacio ? selectedContrato.espacio.id : ''"
+          id="espacioId"
+          type="number"
+          readonly
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="fechaInicio">
+          Fecha de Inicio
+        </label>
+        <input
+          [(ngModel)]="selectedContrato.fechaInicio"
+          id="fechaInicio"
+          type="date"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+          (change)="recalcularCosto()"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          Duración (meses)
+        </label>
+        <p class="text-lg font-bold text-gray-800">
+          {{ calcularDuracionMeses(selectedContrato.fechaInicio, selectedContrato.fechaFin) }} meses
+        </p>
+      </div>
+
+      <!-- 🔹 Costo Total -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          Costo Total
+        </label>
+        <p class="text-lg font-bold text-gray-800">$ {{ selectedContrato.montoTotal }}</p>
+      </div>
+
+      <!-- 🔹 Botones -->
+      <div class="flex items-center justify-between">
+        <button
+          (click)="saveContrato()"
+          class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+        >
+          Guardar Cambios
+        </button>
+        <button
+          (click)="cancelEdit()"
+          class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>

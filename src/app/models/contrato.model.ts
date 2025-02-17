@@ -1,11 +1,12 @@
 import { Espacio } from "./espacio.model";
+import { Persona } from "./persona.model";
 import { Usuario } from "./usuario.model";
 
 export interface Contrato{
-    id : Number,
+    id : number,
     fechaInicio : Date,
-    fechFin : Date,
-    montoTotal : Number,
+    fechaFin : Date,
+    montoTotal : number,
     usuario : Usuario,
     espacio : Espacio
 }

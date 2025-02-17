@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TarifaService } from '../../../../tarifas/services/tarifas.service';
 import { Tarifa } from '../../../../../models/tarifa.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-cajero-tarifa',
@@ -28,7 +29,7 @@ export class CajeroTarifaComponent implements OnInit {
     await this.obtenerTarifaCierreInesperado();
   }
 
-  /** Obtener la tarifa normal */
+
   async obtenerTarifaActual() {
     try {
       const tarifas = await this.tarifaService.obtenerTarifas().toPromise();
@@ -42,33 +43,44 @@ export class CajeroTarifaComponent implements OnInit {
     }
   }
 
-  /** Actualizar la tarifa normal */
+
   async actualizarTarifa() {
     if (this.nuevaTarifa === null || this.nuevaTarifa <= 0) {
       this.mostrarMensajeConfirmacion('Por favor ingrese una tarifa válida.');
       return;
     }
-
+  
     try {
-      const tarifaActualizada = await this.tarifaService
-        .actualizarTarifa({ id: 1, valor: this.nuevaTarifa })
-        .toPromise();
-
-      if (tarifaActualizada) {
-        this.tarifaActual = Number(tarifaActualizada.valor);
+      const tarifas = await this.tarifaService.obtenerTarifas().toPromise();
+      if (!tarifas || tarifas.length === 0) {
+        this.mostrarMensajeConfirmacion('No se encontró la tarifa actual.');
+        return;
+      }
+  
+      const tarifaActualizada = tarifas[0]; // 🔹 Tomar la más reciente
+      tarifaActualizada.valor = this.nuevaTarifa; // 🔹 Modificar solo el valor
+  
+      const respuesta = await this.tarifaService.actualizarTarifa(tarifaActualizada).toPromise();
+  
+      if (respuesta) {
+        this.tarifaActual = Number(respuesta.valor);
         this.mostrarMensajeConfirmacion(`Tarifa actualizada a $${this.nuevaTarifa}.`);
         this.nuevaTarifa = null;
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error al actualizar la tarifa:', error);
-      this.mostrarMensajeConfirmacion('Hubo un error al actualizar la tarifa.');
+    
+      if (error.status === 409) {
+        this.mostrarMensajeConfirmacion('La tarifa ha sido modificada por otro usuario. Recarga y vuelve a intentarlo.');
+      } else {
+        this.mostrarMensajeConfirmacion('Hubo un error al actualizar la tarifa.');
+      }
     }
   }
 
-  /** Obtener la tarifa de cierre inesperado */
   async obtenerTarifaCierreInesperado() {
     try {
-      // Supongamos que existe una tarifa específica en la API para esto
+
       const tarifa = await this.tarifaService.obtenerTarifaPorId(2).toPromise();
       if (tarifa) {
         this.tarifaCierreInesperado = Number(tarifa.valor);
@@ -78,18 +90,17 @@ export class CajeroTarifaComponent implements OnInit {
     }
   }
 
-  /** Activar tarifa de cierre inesperado por 2 horas */
   activarCierreInesperado() {
-    this.tarifaCierreInesperado = this.tarifaActual * 1.5; // Ejemplo: se incrementa 50%
+    this.tarifaCierreInesperado = this.tarifaActual * 1.0; 
     this.mostrarMensajeConfirmacion(`Se activó la tarifa de cierre inesperado: $${this.tarifaCierreInesperado}.`);
 
     setTimeout(() => {
       this.tarifaCierreInesperado = 0;
       this.mostrarMensajeConfirmacion('El cierre inesperado ha finalizado.');
-    }, 2 * 60 * 60 * 1000); // 2 horas en milisegundos
+    }, 2 * 60 * 60 * 1000); 
   }
 
-  /** Guardar tarifa especial para una fecha seleccionada */
+
   async guardarTarifaEspecial() {
     if (!this.fechaEspecial || this.nuevaTarifaEspecial === null || this.nuevaTarifaEspecial <= 0) {
       this.mostrarMensajeConfirmacion('Ingrese una fecha y tarifa válida.');
@@ -111,8 +122,6 @@ export class CajeroTarifaComponent implements OnInit {
       this.mostrarMensajeConfirmacion('Hubo un error al guardar la tarifa especial.');
     }
   }
-
-  /** Mostrar mensajes de confirmación */
   mostrarMensajeConfirmacion(mensaje: string) {
     this.mensajeConfirmacion = mensaje;
     setTimeout(() => {

@@ -27,7 +27,7 @@ export class ContratosService {
     return this.http.put<Contrato>(this.baseUrl, contrato);
   }
 
-  deleteEspacio(id : Number) : Observable<void>{
+  deleteContrato(id : Number) : Observable<void>{
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

@@ -30,4 +30,5 @@ export class UsuariosService {
   deleteUsuarioById( id : Number) : Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+  
 }

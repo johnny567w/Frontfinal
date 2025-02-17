@@ -9,6 +9,8 @@ import { CajeroInicioComponent } from './modules/dashboards/components/cajero-da
 import { CajeroGestionUsuariosComponent } from './modules/dashboards/components/cajero-dashboard/cajero-gestion-usuarios/cajero-gestion-usuarios.component';
 import { CajeroGestionEspaciosComponent } from './modules/dashboards/components/cajero-dashboard/cajero-gestion-espacios/cajero-gestion-espacios.component';
 import { CajeroTarifaComponent } from './modules/dashboards/components/cajero-dashboard/cajero-tarifa/cajero-tarifa.component';
+import { CajeroGestionContratosComponent } from './modules/dashboards/components/cajero-dashboard/cajero-gestion-contratos/cajero-gestion-contratos.component';
+import { UsuarioAdquirirContratosComponent } from './modules/dashboards/components/usuario-dashboard/usuario-adquirir-contratos/usuario-adquirir-contratos.component';
 
 export const routes: Routes = [
   { path: 'inicio', loadComponent: () => import('./shared/components/inicio/inicio.component').then(m => m.InicioComponent) },
@@ -26,6 +28,8 @@ export const routes: Routes = [
       { path: 'inicio-usuario', component: UsuarioInicioComponent },
       { path: 'vehiculos-usuario', component: VehiculosUsuarioComponent },
       { path: 'mi-perfil', component: MiPerfilComponent },
+      { path: 'contratos-usuario', component: UsuarioAdquirirContratosComponent },
+
     ],
   },
   
@@ -38,7 +42,7 @@ export const routes: Routes = [
       { path: 'inicio-cajero', component: CajeroInicioComponent },
     { path: 'gestion-espacios', component: CajeroGestionEspaciosComponent },
       { path: 'gestion-usuarios', component: CajeroGestionUsuariosComponent },
-     //// { path: 'gestion-contratos', component: CajeroGestionContratosComponent },
+      { path: 'gestion-contratos', component: CajeroGestionContratosComponent},
       { path: 'gestion-tarifa', component: CajeroTarifaComponent}, 
     ],
   },

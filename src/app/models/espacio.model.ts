@@ -1,5 +1,5 @@
 export interface Espacio{
-    id : Number,
+    id : number,
     ocupado : boolean,
     reservado : boolean,
     estado : String
